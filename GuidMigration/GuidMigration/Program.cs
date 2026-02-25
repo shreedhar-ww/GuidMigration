@@ -26,7 +26,9 @@ try
         SourceScopeName = configuration["Couchbase:SourceScopeName"] ?? "UCG",
         TargetScopeName = configuration["Couchbase:TargetScopeName"] ?? "UCG",
         CompanyId = int.Parse(configuration["Couchbase:CompanyId"] ?? "1"),
-        BatchSize = int.Parse(configuration["Couchbase:BatchSize"] ?? "50")
+        BatchSize = int.Parse(configuration["Couchbase:BatchSize"] ?? "50"),
+        CsvFilePath = configuration["Couchbase:CsvFilePath"] ?? "",
+        SqlTableName = configuration["Couchbase:SqlTableName"] ?? "CropData"
     };
 
     var runner = new MigrationRunner(config);

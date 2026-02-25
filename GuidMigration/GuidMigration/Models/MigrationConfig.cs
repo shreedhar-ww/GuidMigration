@@ -26,4 +26,8 @@ public class MigrationConfig
 
     // Batching
     public int BatchSize { get; set; } = 50;
+
+    // CSV to SQL generation
+    public string CsvFilePath { get; set; } = string.Empty;
+    public string SqlTableName { get; set; } = "CropData";
 }

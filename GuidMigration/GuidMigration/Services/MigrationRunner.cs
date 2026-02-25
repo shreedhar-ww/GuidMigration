@@ -165,6 +165,19 @@ public class MigrationRunner
             }
         }
 
+        // --- Step 13: Generate SQL INSERT script from CSV ---
+        if (!string.IsNullOrWhiteSpace(_config.CsvFilePath))
+        {
+            Logger.Section("--- STEP 13: Generate SQL INSERT Script ---");
+            var csvPath = Path.IsPathRooted(_config.CsvFilePath)
+                ? _config.CsvFilePath
+                : Path.Combine(AppContext.BaseDirectory, _config.CsvFilePath);
+            var sqlOutputPath = Path.Combine(reportDir, $"{_config.SqlTableName}_insert.sql");
+
+            var sqlGenerator = new CsvSqlGenerator(mappings);
+            sqlGenerator.GenerateSqlFromCsv(csvPath, sqlOutputPath, _config.SqlTableName);
+        }
+
         // Final summary
         stopwatch.Stop();
         Logger.Section("=========================================");
