@@ -21,7 +21,8 @@ public class MigrationRunner
         Logger.Section("=========================================");
         Logger.Info($"Source: {_config.SourceConnectionString} / {_config.SourceBucket}");
         Logger.Info($"Target: {_config.TargetConnectionString} / {_config.TargetBucket}");
-        Logger.Info($"Scope: {_config.ScopeName}");
+        Logger.Info($"Source Scope: {_config.SourceScopeName}");
+        Logger.Info($"Target Scope: {_config.TargetScopeName}");
         Logger.Info($"CompanyId: {_config.CompanyId}");
         Logger.Info($"Log file: {Logger.GetLogFilePath()}");
         Logger.Section("=========================================");
@@ -118,7 +119,7 @@ public class MigrationRunner
 
         // --- Step 11: Upsert to target ---
         var upserter = new DocumentUpserter(_config.BatchSize);
-        var targetScope = connManager.TargetBucket.Scope(_config.ScopeName);
+        var targetScope = connManager.TargetBucket.Scope(_config.TargetScopeName);
 
         Logger.Section("--- STEP 11a: Upsert Classifications ---");
         var classTarget = await targetScope.CollectionAsync(_config.ClassificationCollection);
@@ -205,7 +206,7 @@ public class MigrationRunner
         {
             try
             {
-                var query = $"SELECT COUNT(*) AS cnt FROM `{config.TargetBucket}`.`{config.ScopeName}`.`{collectionName}`";
+                var query = $"SELECT COUNT(*) AS cnt FROM `{config.TargetBucket}`.`{config.TargetScopeName}`.`{collectionName}`";
                 var result = await targetCluster.QueryAsync<Newtonsoft.Json.Linq.JObject>(query);
 
                 await foreach (var row in result)

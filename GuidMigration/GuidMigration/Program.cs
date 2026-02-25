@@ -23,7 +23,8 @@ try
         TargetUsername = targetSection["Username"]!,
         TargetPassword = targetSection["Password"]!,
         TargetBucket = targetSection["Bucket"]!,
-        ScopeName = configuration["Couchbase:ScopeName"] ?? "UCG",
+        SourceScopeName = configuration["Couchbase:SourceScopeName"] ?? "UCG",
+        TargetScopeName = configuration["Couchbase:TargetScopeName"] ?? "UCG",
         CompanyId = int.Parse(configuration["Couchbase:CompanyId"] ?? "1"),
         BatchSize = int.Parse(configuration["Couchbase:BatchSize"] ?? "50")
     };

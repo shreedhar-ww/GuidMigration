@@ -36,23 +36,23 @@ public class CouchbaseConnectionManager : IAsyncDisposable
         var manifest = await manager.GetAllScopesAsync();
 
         // Create scope if not exists
-        if (!manifest.Any(s => s.Name == config.ScopeName))
+        if (!manifest.Any(s => s.Name == config.TargetScopeName))
         {
-            await manager.CreateScopeAsync(config.ScopeName);
-            Logger.Success($"Created scope: {config.ScopeName}");
+            await manager.CreateScopeAsync(config.TargetScopeName);
+            Logger.Success($"Created scope: {config.TargetScopeName}");
             await Task.Delay(2000);
         }
         else
         {
-            Logger.Info($"Scope '{config.ScopeName}' already exists.");
+            Logger.Info($"Scope '{config.TargetScopeName}' already exists.");
         }
 
         // Refresh manifest after scope creation
         manifest = await manager.GetAllScopesAsync();
-        var scope = manifest.SingleOrDefault(s => s.Name == config.ScopeName);
+        var scope = manifest.SingleOrDefault(s => s.Name == config.TargetScopeName);
         if (scope == null)
         {
-            throw new Exception($"Scope '{config.ScopeName}' does not exist after creation attempt.");
+            throw new Exception($"Scope '{config.TargetScopeName}' does not exist after creation attempt.");
         }
 
         var existingCollections = scope.Collections.Select(c => c.Name).ToHashSet();
@@ -67,7 +67,7 @@ public class CouchbaseConnectionManager : IAsyncDisposable
         {
             if (!existingCollections.Contains(collection))
             {
-                await manager.CreateCollectionAsync(config.ScopeName, collection, new CreateCollectionSettings());
+                await manager.CreateCollectionAsync(config.TargetScopeName, collection, new CreateCollectionSettings());
                 Logger.Success($"Created collection: {collection}");
                 await Task.Delay(1000);
             }
@@ -82,7 +82,7 @@ public class CouchbaseConnectionManager : IAsyncDisposable
         {
             try
             {
-                var indexQuery = $"CREATE PRIMARY INDEX IF NOT EXISTS ON `{config.TargetBucket}`.`{config.ScopeName}`.`{collection}`";
+                var indexQuery = $"CREATE PRIMARY INDEX IF NOT EXISTS ON `{config.TargetBucket}`.`{config.TargetScopeName}`.`{collection}`";
                 await TargetCluster.QueryAsync<dynamic>(indexQuery);
                 Logger.Success($"Primary index ensured for {collection}");
             }

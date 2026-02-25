@@ -15,7 +15,8 @@ public class MigrationConfig
     public string TargetBucket { get; set; } = string.Empty;
 
     // Scope and Collections
-    public string ScopeName { get; set; } = "UCG";
+    public string SourceScopeName { get; set; } = "UCG";
+    public string TargetScopeName { get; set; } = "UCG";
     public string ClassificationCollection { get; set; } = "Classification";
     public string SubClassificationCollection { get; set; } = "SubClassification";
     public string HierarchyCollection { get; set; } = "Hierarchy";

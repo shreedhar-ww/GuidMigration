@@ -17,7 +17,7 @@ public class DataFetcher
     {
         var collection = config.HierarchyCollection;
         var query = $@"SELECT META().id AS id, `{collection}` AS doc
-                       FROM `{config.SourceBucket}`.`{config.ScopeName}`.`{collection}`
+                       FROM `{config.SourceBucket}`.`{config.SourceScopeName}`.`{collection}`
                        WHERE `{collection}`.companyId = {config.CompanyId}";
 
         Logger.Info($"Fetching Hierarchy where companyId = {config.CompanyId}...");
@@ -44,7 +44,7 @@ public class DataFetcher
         ICluster sourceCluster, MigrationConfig config, List<string> ids)
     {
         return await FetchDocumentsByIdsAsync(
-            sourceCluster, config.SourceBucket, config.ScopeName,
+            sourceCluster, config.SourceBucket, config.SourceScopeName,
             config.ClassificationCollection, ids, "Classification");
     }
 
@@ -55,7 +55,7 @@ public class DataFetcher
         ICluster sourceCluster, MigrationConfig config, List<string> ids)
     {
         return await FetchDocumentsByIdsAsync(
-            sourceCluster, config.SourceBucket, config.ScopeName,
+            sourceCluster, config.SourceBucket, config.SourceScopeName,
             config.SubClassificationCollection, ids, "SubClassification");
     }
 
