@@ -1,0 +1,203 @@
+[2026-02-25 07:57:17] [====] =========================================
+[2026-02-25 07:57:17] [====]  GUID MIGRATION STARTED
+[2026-02-25 07:57:17] [====] =========================================
+[2026-02-25 07:57:17] [INFO] Source: couchbase://162.19.239.150 / PRODDATA
+[2026-02-25 07:57:17] [INFO] Target: couchbase://localhost / Daily-Backup
+[2026-02-25 07:57:17] [INFO] Scope: UCG
+[2026-02-25 07:57:17] [INFO] CompanyId: 1
+[2026-02-25 07:57:17] [INFO] Log file: /Users/shreedhardeshwal/Desktop/SA/CouchBase/Datamigration/GuidMigration/GuidMigration/bin/Debug/net8.0/../../../logs/migration-2026-02-25_07-57-17.log
+[2026-02-25 07:57:17] [====] =========================================
+[2026-02-25 07:57:17] [INFO] Connecting to source cluster...
+[2026-02-25 07:57:19] [OK] Connected to source cluster.
+[2026-02-25 07:57:19] [INFO] Connecting to target cluster...
+[2026-02-25 07:57:19] [OK] Connected to target cluster.
+[2026-02-25 07:57:19] [OK] Created scope: UCG
+[2026-02-25 07:57:21] [OK] Created collection: Classification
+[2026-02-25 07:57:22] [OK] Created collection: SubClassification
+[2026-02-25 07:57:23] [OK] Created collection: Hierarchy
+[2026-02-25 07:57:26] [OK] Primary index ensured for Classification
+[2026-02-25 07:57:29] [OK] Primary index ensured for SubClassification
+[2026-02-25 07:57:32] [OK] Primary index ensured for Hierarchy
+[2026-02-25 07:57:32] [====] --- STEP 3: Fetch Hierarchy ---
+[2026-02-25 07:57:32] [INFO] Fetching Hierarchy where companyId = 1...
+[2026-02-25 07:57:33] [OK] Fetched 54 Hierarchy documents.
+[2026-02-25 07:57:33] [====] --- STEP 4: Separate Hierarchy by level ---
+[2026-02-25 07:57:33] [INFO] Classification IDs (level=1): 7
+[2026-02-25 07:57:33] [INFO] SubClassification IDs (level>1): 47
+[2026-02-25 07:57:33] [====] --- STEP 5: Fetch Classifications ---
+[2026-02-25 07:57:33] [INFO] Fetching 7 Classification documents in batches of 100...
+[2026-02-25 07:57:33] [INFO]   Batch 1: fetched 7 IDs
+[2026-02-25 07:57:33] [OK] Fetched 7 of 7 Classification documents.
+[2026-02-25 07:57:33] [====] --- STEP 6: Fetch SubClassifications ---
+[2026-02-25 07:57:33] [INFO] Fetching 47 SubClassification documents in batches of 100...
+[2026-02-25 07:57:34] [INFO]   Batch 1: fetched 47 IDs
+[2026-02-25 07:57:34] [OK] Fetched 47 of 47 SubClassification documents.
+[2026-02-25 07:57:34] [====] --- STEP 7: Register GUID mappings ---
+[2026-02-25 07:57:34] [OK] Registered 54 GUID mappings.
+[2026-02-25 07:57:34] [====] --- STEP 8: Transform Classifications ---
+[2026-02-25 07:57:34] [INFO]   Classification 'ZZZ - Test Crop': 047662bd-c562-437d-aeac-fb92e6b252fb -> e1329b08-9224-4a5b-981c-a27f2bb09943
+[2026-02-25 07:57:34] [INFO]   Classification 'Vegetables': 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Classification 'Herbs': 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   Classification 'Fruit': 8131bdda-a599-4ea0-8582-e935b4fbd03b -> d8ea5ceb-5215-4ead-ae62-2723e72cd982
+[2026-02-25 07:57:34] [INFO]   Classification 'Flowers Class': 4f29cba7-a815-4250-a8ef-78ebd484fe6d -> 3068ec26-d894-45e4-9199-27055bc92714
+[2026-02-25 07:57:34] [INFO]   Classification 'Oilseed': 8f08f380-cf34-4a90-8bda-dec4466f9437 -> 575b6b7f-c057-4119-adcb-8c08d2670cb2
+[2026-02-25 07:57:34] [INFO]   Classification 'Grain': 2995301d-77cd-4394-89a5-9f3c3e1d360e -> 59f2e26c-43cb-4a37-83d3-9b7e598e5179
+[2026-02-25 07:57:34] [====] --- STEP 9: Transform SubClassifications ---
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Pumpkin': 025ad817-aed6-4ce9-abb6-74f9d84888ca -> 9e00bd2b-b616-4cd3-83c2-70377fb6ff18, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Green Pepper': 88050157-50e7-4ad3-b669-d9f28c9b98a3 -> 2d6dd3d6-3a9c-4725-9169-3683146a2717, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Sceletium': d4989086-a7ea-4c36-b0b6-d33c24e7b29d -> 1fecbdea-cac0-4086-a41b-33ac574a3acf, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Strawberries': 41178b5a-5f0e-41da-9d30-c78539afbffe -> cad2dca5-3cd9-4b97-a828-da0883e2644e, parentId: 8131bdda-a599-4ea0-8582-e935b4fbd03b -> d8ea5ceb-5215-4ead-ae62-2723e72cd982
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Lettuce': 5a75e936-2a0e-4256-92c8-057ba8edbf91 -> fed1b4c3-56eb-46ec-a70f-1fc20cc05adb, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Onions - Red': cb34843e-3475-4f15-bf04-6a32b901df69 -> 61fefdc6-e99e-4246-9e6f-f53a1c8bf7bf, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Carrots': 7f097787-a1fa-4d66-a5b7-bf3b385185ae -> 18628e84-4070-401d-abd5-743ae8c8b584, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Spinach': aae9cfca-ef91-42d0-bfeb-c82a5bf0a970 -> f3e6b758-57b6-4203-a012-9a74f32f260c, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Cabbage': 8944df7a-612a-4c53-8d63-72728eb5b362 -> 71a89e33-c4c3-4aef-97dc-7bc5d5fb806a, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Red Lettuce': 1271392c-3689-483c-9552-f160d7eb4300 -> 88c02109-bc45-4b36-905b-c756ff0a3c9b, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Rosemary': 28183fba-1100-4d28-a0bc-112cae0da017 -> 4c9548b7-fa07-421e-be44-2e49f8c3650d, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Cauliflower': bbb0bb80-2e14-4060-bf17-9c62ccef3bb0 -> 256f81ac-9503-4628-95e2-a4079075d259, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Onions': 949caba3-76dc-4699-98c1-67160df2eb63 -> c8582902-91e3-4a37-8d88-c2ac04dd3b14, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Parsley': 5d02c2bf-6a44-4a21-9a9d-d414c90e83e2 -> b1ded2cc-97cf-4cae-ac9a-db5660acf178, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Parsley': 34e8e009-7b4e-4336-b738-482f2e9e2929 -> fa5b7e3c-60da-4e62-9286-8f50887703cd, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Leeks': 50349cfa-71e5-4ea2-9f1e-6365db763bce -> 7850d778-d077-4f7e-9d59-3d070fb8966d, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Potato': 45ac176f-7a91-4983-8092-178859f5ccf6 -> 26573132-4f6e-4742-a483-766b5b60d312, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Flower 1': 19c02da9-4988-4a67-ae8d-f1efbfacef7b -> 326dd2d1-853d-42dc-904f-4dd6972d4ec7, parentId: 4f29cba7-a815-4250-a8ef-78ebd484fe6d -> 3068ec26-d894-45e4-9199-27055bc92714
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Gem Squash': c155456f-182d-468a-981e-da6ce1c54247 -> d593791c-dae5-4951-a369-43778eca3b60, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Fennel': 6cb5891b-60d3-4367-b5dc-c743e66a19f2 -> b714aeee-854b-401e-a8a6-055244c3e29f, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Peppadew ': 6db7bc9a-f60e-41a1-8c59-e194c22cda76 -> 16dee508-acfc-4f41-9e6a-6600b6803eac, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Rape': 7f26683c-bded-4b15-9c15-769c67d09786 -> 9e1e9538-4669-48c5-b2eb-a6ac79168360, parentId: 8f08f380-cf34-4a90-8bda-dec4466f9437 -> 575b6b7f-c057-4119-adcb-8c08d2670cb2
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Garlic': c9189424-da7b-4ff1-901a-8ce8ff7d5fc3 -> 7aae319d-7e25-4e7a-a2d2-595ef77d03f2, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Broccoli': bda877e0-1778-4700-b9a2-d3fb33e90f23 -> 26ba95ac-49ab-4ca8-9325-ff7558101551, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Cucumber': 9c424b12-b21a-4686-9f07-f45cc503d7b9 -> ddddacc2-f2c4-4e98-93d4-127777e4d8ff, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Cucumber ': 142fa3c4-9d5d-4050-bb04-c8f5fc7b68ef -> f9bb7c43-9831-4fac-9ab0-fcf5ecf48acf, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Ashwagandha': 5cfe536d-8e80-4ca9-847e-6bb60763268c -> b7389757-19bb-44bd-b4a6-7e9e9ea7348a, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Kale': f2f7bbd7-b718-416c-a7c1-69587dba15b4 -> f8cde466-fba1-4c62-9f62-4ea48c0c8af9, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'ZZ Test': 529cc72c-fa53-43c1-87a1-88f39ff474f5 -> 1a0e1fd2-0695-46b6-ae9a-bb5e64201fa4, parentId: 8131bdda-a599-4ea0-8582-e935b4fbd03b -> d8ea5ceb-5215-4ead-ae62-2723e72cd982
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Chilli-Test': 1d95dcdf-9747-401b-a72d-e7814e4c2c2d -> b4cdef6c-926e-4084-b881-019c657614f1, parentId: d3057144-b5f0-4d89-958c-1521518283f3 -> 73377be5-b14c-4935-a364-23d4237f4a91
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Raddish': cd3e4b17-7d5d-4cee-855d-305bc21bd6fe -> 7910f78c-d477-4d54-8e80-f3d9fc4f4d95, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Spring Onion': 16d073cb-3665-4c7b-8266-15208334fc29 -> e6d2dee6-85b5-4054-9167-bfa02b2418e3, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Maize': bb80c536-4974-422e-91bf-6c6f9b70add8 -> 0cf054a3-36ed-4a57-8fda-c0e1d13a27cb, parentId: 2995301d-77cd-4394-89a5-9f3c3e1d360e -> 59f2e26c-43cb-4a37-83d3-9b7e598e5179
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Chilli - Cayanne': d3057144-b5f0-4d89-958c-1521518283f3 -> 73377be5-b14c-4935-a364-23d4237f4a91, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Coriander': e6415e0b-3d8e-4969-9185-69ad265a346b -> edf19a7c-b85e-4ae5-a099-f3ea497a7adf, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Butternut': 40188525-b1ea-4a4f-ad0e-938b92970eb0 -> 98bbf1b8-082f-4855-9d84-0e2a91a6a73b, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Beetroot': c388623e-d809-49b9-b434-3f6ba6f612eb -> 1c206351-1f5c-4f89-8966-2a289a5ab997, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Sweet Potato': 7cfeb8c7-0378-45ef-88a0-aef942e49a54 -> 150d69ce-8201-4020-9c89-026ddbd5d827, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Sage': d78b3a2a-2160-47ce-a325-e5351e0e5a26 -> 38cfb2ec-09dd-4a55-9522-1b082de3c21f, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Brinjal': 679db0de-b716-4df5-931e-c5a5ed0c2a6b -> 7abc8b8f-edfa-4bd1-b3a5-cbb79b73dd81, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Cabbage - Red': b7678456-29ab-4168-8459-be7fc55f20ac -> 87bad1df-86d8-45da-a9d3-9d669cb5e438, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Afro Cucumber 2': 52d6b2b7-ac02-41f9-a2dd-d5eb7d3cba06 -> 5839216f-7858-4644-9ccf-aa55134f0398, parentId: 047662bd-c562-437d-aeac-fb92e6b252fb -> e1329b08-9224-4a5b-981c-a27f2bb09943
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Green Beans': 68e64c27-951d-4a19-b7c9-438633c63b0b -> ed015700-cef5-4a0e-89ba-de5942134d20, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Afro Cucumber 1': d678405e-6661-4c03-a161-7f5417145b6f -> 926bd3cb-3bb1-4169-899c-696eeb9ee34c, parentId: 047662bd-c562-437d-aeac-fb92e6b252fb -> e1329b08-9224-4a5b-981c-a27f2bb09943
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Rocket': 8c05f4e7-cc71-4e17-9f52-f00266248aa5 -> 2e34ad8b-84ce-4d4f-87fc-102a369979e5, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Tomatoes': 6539a194-e88b-47bd-b6e4-6dfd5db610aa -> 97a06c27-76e4-4b0d-9cbd-885a689bfbb1, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   SubClassification 'Thyme': fa8028d1-8d4b-4e39-aa1a-aaadaa62cfe7 -> 1f127fc5-431c-4391-bfcc-e1547338fc0d, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [====] --- STEP 10: Transform Hierarchies ---
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Raddish': cd3e4b17-7d5d-4cee-855d-305bc21bd6fe -> 7910f78c-d477-4d54-8e80-f3d9fc4f4d95, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Rape': 7f26683c-bded-4b15-9c15-769c67d09786 -> 9e1e9538-4669-48c5-b2eb-a6ac79168360, parentId: 8f08f380-cf34-4a90-8bda-dec4466f9437 -> 575b6b7f-c057-4119-adcb-8c08d2670cb2
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Oilseed': 8f08f380-cf34-4a90-8bda-dec4466f9437 -> 575b6b7f-c057-4119-adcb-8c08d2670cb2, parentId:  -> 
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Fennel': 6cb5891b-60d3-4367-b5dc-c743e66a19f2 -> b714aeee-854b-401e-a8a6-055244c3e29f, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Herbs': 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875, parentId:  -> 
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'ZZZ - Test Crop': 047662bd-c562-437d-aeac-fb92e6b252fb -> e1329b08-9224-4a5b-981c-a27f2bb09943, parentId:  -> 
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Potato': 45ac176f-7a91-4983-8092-178859f5ccf6 -> 26573132-4f6e-4742-a483-766b5b60d312, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Tomatoes': 6539a194-e88b-47bd-b6e4-6dfd5db610aa -> 97a06c27-76e4-4b0d-9cbd-885a689bfbb1, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Red Lettuce': 1271392c-3689-483c-9552-f160d7eb4300 -> 88c02109-bc45-4b36-905b-c756ff0a3c9b, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Sage': d78b3a2a-2160-47ce-a325-e5351e0e5a26 -> 38cfb2ec-09dd-4a55-9522-1b082de3c21f, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Parsley': 34e8e009-7b4e-4336-b738-482f2e9e2929 -> fa5b7e3c-60da-4e62-9286-8f50887703cd, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Maize': bb80c536-4974-422e-91bf-6c6f9b70add8 -> 0cf054a3-36ed-4a57-8fda-c0e1d13a27cb, parentId: 2995301d-77cd-4394-89a5-9f3c3e1d360e -> 59f2e26c-43cb-4a37-83d3-9b7e598e5179
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Thyme': fa8028d1-8d4b-4e39-aa1a-aaadaa62cfe7 -> 1f127fc5-431c-4391-bfcc-e1547338fc0d, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Brinjal': 679db0de-b716-4df5-931e-c5a5ed0c2a6b -> 7abc8b8f-edfa-4bd1-b3a5-cbb79b73dd81, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Coriander': e6415e0b-3d8e-4969-9185-69ad265a346b -> edf19a7c-b85e-4ae5-a099-f3ea497a7adf, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Grain': 2995301d-77cd-4394-89a5-9f3c3e1d360e -> 59f2e26c-43cb-4a37-83d3-9b7e598e5179, parentId:  -> 
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Parsley': 5d02c2bf-6a44-4a21-9a9d-d414c90e83e2 -> b1ded2cc-97cf-4cae-ac9a-db5660acf178, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Spring Onion': 16d073cb-3665-4c7b-8266-15208334fc29 -> e6d2dee6-85b5-4054-9167-bfa02b2418e3, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Gem Squash': c155456f-182d-468a-981e-da6ce1c54247 -> d593791c-dae5-4951-a369-43778eca3b60, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Broccoli': bda877e0-1778-4700-b9a2-d3fb33e90f23 -> 26ba95ac-49ab-4ca8-9325-ff7558101551, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Kale': f2f7bbd7-b718-416c-a7c1-69587dba15b4 -> f8cde466-fba1-4c62-9f62-4ea48c0c8af9, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Onions - Red': cb34843e-3475-4f15-bf04-6a32b901df69 -> 61fefdc6-e99e-4246-9e6f-f53a1c8bf7bf, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Lettuce': 5a75e936-2a0e-4256-92c8-057ba8edbf91 -> fed1b4c3-56eb-46ec-a70f-1fc20cc05adb, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Flowers Class': 4f29cba7-a815-4250-a8ef-78ebd484fe6d -> 3068ec26-d894-45e4-9199-27055bc92714, parentId:  -> 
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Cabbage - Red': b7678456-29ab-4168-8459-be7fc55f20ac -> 87bad1df-86d8-45da-a9d3-9d669cb5e438, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Chilli-Test': 1d95dcdf-9747-401b-a72d-e7814e4c2c2d -> b4cdef6c-926e-4084-b881-019c657614f1, parentId: d3057144-b5f0-4d89-958c-1521518283f3 -> 73377be5-b14c-4935-a364-23d4237f4a91
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Afro Cucumber 1': d678405e-6661-4c03-a161-7f5417145b6f -> 926bd3cb-3bb1-4169-899c-696eeb9ee34c, parentId: 047662bd-c562-437d-aeac-fb92e6b252fb -> e1329b08-9224-4a5b-981c-a27f2bb09943
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Sceletium': d4989086-a7ea-4c36-b0b6-d33c24e7b29d -> 1fecbdea-cac0-4086-a41b-33ac574a3acf, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Butternut': 40188525-b1ea-4a4f-ad0e-938b92970eb0 -> 98bbf1b8-082f-4855-9d84-0e2a91a6a73b, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Leeks': 50349cfa-71e5-4ea2-9f1e-6365db763bce -> 7850d778-d077-4f7e-9d59-3d070fb8966d, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Sweet Potato': 7cfeb8c7-0378-45ef-88a0-aef942e49a54 -> 150d69ce-8201-4020-9c89-026ddbd5d827, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Flower 1': 19c02da9-4988-4a67-ae8d-f1efbfacef7b -> 326dd2d1-853d-42dc-904f-4dd6972d4ec7, parentId: 4f29cba7-a815-4250-a8ef-78ebd484fe6d -> 3068ec26-d894-45e4-9199-27055bc92714
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Cauliflower': bbb0bb80-2e14-4060-bf17-9c62ccef3bb0 -> 256f81ac-9503-4628-95e2-a4079075d259, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Garlic': c9189424-da7b-4ff1-901a-8ce8ff7d5fc3 -> 7aae319d-7e25-4e7a-a2d2-595ef77d03f2, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Chilli - Cayanne': d3057144-b5f0-4d89-958c-1521518283f3 -> 73377be5-b14c-4935-a364-23d4237f4a91, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Onions': 949caba3-76dc-4699-98c1-67160df2eb63 -> c8582902-91e3-4a37-8d88-c2ac04dd3b14, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Pumpkin': 025ad817-aed6-4ce9-abb6-74f9d84888ca -> 9e00bd2b-b616-4cd3-83c2-70377fb6ff18, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Carrots': 7f097787-a1fa-4d66-a5b7-bf3b385185ae -> 18628e84-4070-401d-abd5-743ae8c8b584, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Cucumber ': 142fa3c4-9d5d-4050-bb04-c8f5fc7b68ef -> f9bb7c43-9831-4fac-9ab0-fcf5ecf48acf, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Spinach': aae9cfca-ef91-42d0-bfeb-c82a5bf0a970 -> f3e6b758-57b6-4203-a012-9a74f32f260c, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Peppadew ': 6db7bc9a-f60e-41a1-8c59-e194c22cda76 -> 16dee508-acfc-4f41-9e6a-6600b6803eac, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Cabbage': 8944df7a-612a-4c53-8d63-72728eb5b362 -> 71a89e33-c4c3-4aef-97dc-7bc5d5fb806a, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Cucumber': 9c424b12-b21a-4686-9f07-f45cc503d7b9 -> ddddacc2-f2c4-4e98-93d4-127777e4d8ff, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Green Pepper': 88050157-50e7-4ad3-b669-d9f28c9b98a3 -> 2d6dd3d6-3a9c-4725-9169-3683146a2717, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Green Beans': 68e64c27-951d-4a19-b7c9-438633c63b0b -> ed015700-cef5-4a0e-89ba-de5942134d20, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Fruit': 8131bdda-a599-4ea0-8582-e935b4fbd03b -> d8ea5ceb-5215-4ead-ae62-2723e72cd982, parentId:  -> 
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Beetroot': c388623e-d809-49b9-b434-3f6ba6f612eb -> 1c206351-1f5c-4f89-8966-2a289a5ab997, parentId: 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Rocket': 8c05f4e7-cc71-4e17-9f52-f00266248aa5 -> 2e34ad8b-84ce-4d4f-87fc-102a369979e5, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Strawberries': 41178b5a-5f0e-41da-9d30-c78539afbffe -> cad2dca5-3cd9-4b97-a828-da0883e2644e, parentId: 8131bdda-a599-4ea0-8582-e935b4fbd03b -> d8ea5ceb-5215-4ead-ae62-2723e72cd982
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Rosemary': 28183fba-1100-4d28-a0bc-112cae0da017 -> 4c9548b7-fa07-421e-be44-2e49f8c3650d, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Vegetables': 2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf, parentId:  -> 
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Ashwagandha': 5cfe536d-8e80-4ca9-847e-6bb60763268c -> b7389757-19bb-44bd-b4a6-7e9e9ea7348a, parentId: 8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'ZZ Test': 529cc72c-fa53-43c1-87a1-88f39ff474f5 -> 1a0e1fd2-0695-46b6-ae9a-bb5e64201fa4, parentId: 8131bdda-a599-4ea0-8582-e935b4fbd03b -> d8ea5ceb-5215-4ead-ae62-2723e72cd982
+[2026-02-25 07:57:34] [INFO]   Hierarchy 'Afro Cucumber 2': 52d6b2b7-ac02-41f9-a2dd-d5eb7d3cba06 -> 5839216f-7858-4644-9ccf-aa55134f0398, parentId: 047662bd-c562-437d-aeac-fb92e6b252fb -> e1329b08-9224-4a5b-981c-a27f2bb09943
+[2026-02-25 07:57:34] [====] --- STEP 11a: Upsert Classifications ---
+[2026-02-25 07:57:34] [INFO]   Batch 1: 7 docs processed
+[2026-02-25 07:57:34] [====] --- STEP 11b: Upsert SubClassifications ---
+[2026-02-25 07:57:34] [INFO]   Batch 1: 47 docs processed
+[2026-02-25 07:57:34] [====] --- STEP 11c: Upsert Hierarchies ---
+[2026-02-25 07:57:34] [INFO]   Batch 1: 50 docs processed
+[2026-02-25 07:57:34] [INFO]   Batch 2: 4 docs processed
+[2026-02-25 07:57:34] [====] --- STEP 12: Verification ---
+[2026-02-25 07:57:34] [OK] Classification: 7 docs in target (expected >= 7)
+[2026-02-25 07:57:34] [WARN] SubClassification: 12 docs in target (expected >= 47) -- MISMATCH
+[2026-02-25 07:57:34] [WARN] Hierarchy: 11 docs in target (expected >= 54) -- MISMATCH
+[2026-02-25 07:57:34] [INFO] GUID mapping written to: /Users/shreedhardeshwal/Desktop/SA/CouchBase/Datamigration/GuidMigration/GuidMigration/bin/Debug/net8.0/../../../reports/migration-2026-02-25_07-57-34/guid-mapping.csv
+[2026-02-25 07:57:34] [INFO] Migration summary written to: /Users/shreedhardeshwal/Desktop/SA/CouchBase/Datamigration/GuidMigration/GuidMigration/bin/Debug/net8.0/../../../reports/migration-2026-02-25_07-57-34/migration-summary.txt
+[2026-02-25 07:57:34] [====] --- GUID Mapping Summary ---
+[2026-02-25 07:57:34] [INFO]   047662bd-c562-437d-aeac-fb92e6b252fb -> e1329b08-9224-4a5b-981c-a27f2bb09943
+[2026-02-25 07:57:34] [INFO]   2399fe69-1a7f-495e-b6b6-9dff31470e0c -> 18d6f6d3-0629-40c8-ac9a-7cfb47009cdf
+[2026-02-25 07:57:34] [INFO]   8ba02f42-0d6c-4ec2-bb41-6949dcc51a06 -> ac64d979-5d89-4c16-89ae-0441b156b875
+[2026-02-25 07:57:34] [INFO]   8131bdda-a599-4ea0-8582-e935b4fbd03b -> d8ea5ceb-5215-4ead-ae62-2723e72cd982
+[2026-02-25 07:57:34] [INFO]   4f29cba7-a815-4250-a8ef-78ebd484fe6d -> 3068ec26-d894-45e4-9199-27055bc92714
+[2026-02-25 07:57:34] [INFO]   8f08f380-cf34-4a90-8bda-dec4466f9437 -> 575b6b7f-c057-4119-adcb-8c08d2670cb2
+[2026-02-25 07:57:34] [INFO]   2995301d-77cd-4394-89a5-9f3c3e1d360e -> 59f2e26c-43cb-4a37-83d3-9b7e598e5179
+[2026-02-25 07:57:34] [INFO]   025ad817-aed6-4ce9-abb6-74f9d84888ca -> 9e00bd2b-b616-4cd3-83c2-70377fb6ff18
+[2026-02-25 07:57:34] [INFO]   88050157-50e7-4ad3-b669-d9f28c9b98a3 -> 2d6dd3d6-3a9c-4725-9169-3683146a2717
+[2026-02-25 07:57:34] [INFO]   d4989086-a7ea-4c36-b0b6-d33c24e7b29d -> 1fecbdea-cac0-4086-a41b-33ac574a3acf
+[2026-02-25 07:57:34] [INFO]   41178b5a-5f0e-41da-9d30-c78539afbffe -> cad2dca5-3cd9-4b97-a828-da0883e2644e
+[2026-02-25 07:57:34] [INFO]   5a75e936-2a0e-4256-92c8-057ba8edbf91 -> fed1b4c3-56eb-46ec-a70f-1fc20cc05adb
+[2026-02-25 07:57:34] [INFO]   cb34843e-3475-4f15-bf04-6a32b901df69 -> 61fefdc6-e99e-4246-9e6f-f53a1c8bf7bf
+[2026-02-25 07:57:34] [INFO]   7f097787-a1fa-4d66-a5b7-bf3b385185ae -> 18628e84-4070-401d-abd5-743ae8c8b584
+[2026-02-25 07:57:34] [INFO]   aae9cfca-ef91-42d0-bfeb-c82a5bf0a970 -> f3e6b758-57b6-4203-a012-9a74f32f260c
+[2026-02-25 07:57:34] [INFO]   8944df7a-612a-4c53-8d63-72728eb5b362 -> 71a89e33-c4c3-4aef-97dc-7bc5d5fb806a
+[2026-02-25 07:57:34] [INFO]   1271392c-3689-483c-9552-f160d7eb4300 -> 88c02109-bc45-4b36-905b-c756ff0a3c9b
+[2026-02-25 07:57:34] [INFO]   28183fba-1100-4d28-a0bc-112cae0da017 -> 4c9548b7-fa07-421e-be44-2e49f8c3650d
+[2026-02-25 07:57:34] [INFO]   bbb0bb80-2e14-4060-bf17-9c62ccef3bb0 -> 256f81ac-9503-4628-95e2-a4079075d259
+[2026-02-25 07:57:34] [INFO]   949caba3-76dc-4699-98c1-67160df2eb63 -> c8582902-91e3-4a37-8d88-c2ac04dd3b14
+[2026-02-25 07:57:34] [INFO]   5d02c2bf-6a44-4a21-9a9d-d414c90e83e2 -> b1ded2cc-97cf-4cae-ac9a-db5660acf178
+[2026-02-25 07:57:34] [INFO]   34e8e009-7b4e-4336-b738-482f2e9e2929 -> fa5b7e3c-60da-4e62-9286-8f50887703cd
+[2026-02-25 07:57:34] [INFO]   50349cfa-71e5-4ea2-9f1e-6365db763bce -> 7850d778-d077-4f7e-9d59-3d070fb8966d
+[2026-02-25 07:57:34] [INFO]   45ac176f-7a91-4983-8092-178859f5ccf6 -> 26573132-4f6e-4742-a483-766b5b60d312
+[2026-02-25 07:57:34] [INFO]   19c02da9-4988-4a67-ae8d-f1efbfacef7b -> 326dd2d1-853d-42dc-904f-4dd6972d4ec7
+[2026-02-25 07:57:34] [INFO]   c155456f-182d-468a-981e-da6ce1c54247 -> d593791c-dae5-4951-a369-43778eca3b60
+[2026-02-25 07:57:34] [INFO]   6cb5891b-60d3-4367-b5dc-c743e66a19f2 -> b714aeee-854b-401e-a8a6-055244c3e29f
+[2026-02-25 07:57:34] [INFO]   6db7bc9a-f60e-41a1-8c59-e194c22cda76 -> 16dee508-acfc-4f41-9e6a-6600b6803eac
+[2026-02-25 07:57:34] [INFO]   7f26683c-bded-4b15-9c15-769c67d09786 -> 9e1e9538-4669-48c5-b2eb-a6ac79168360
+[2026-02-25 07:57:34] [INFO]   c9189424-da7b-4ff1-901a-8ce8ff7d5fc3 -> 7aae319d-7e25-4e7a-a2d2-595ef77d03f2
+[2026-02-25 07:57:34] [INFO]   ... and 24 more.
+[2026-02-25 07:57:34] [====] =========================================
+[2026-02-25 07:57:34] [====]  MIGRATION COMPLETE
+[2026-02-25 07:57:34] [====] =========================================
+[2026-02-25 07:57:34] [OK] Classification:    7 success, 0 failed
+[2026-02-25 07:57:34] [OK] SubClassification: 47 success, 0 failed
+[2026-02-25 07:57:34] [OK] Hierarchy:         54 success, 0 failed
+[2026-02-25 07:57:34] [OK] Total GUID mappings: 54
+[2026-02-25 07:57:34] [OK] Duration: 16.6s
+[2026-02-25 07:57:34] [INFO] Log file: /Users/shreedhardeshwal/Desktop/SA/CouchBase/Datamigration/GuidMigration/GuidMigration/bin/Debug/net8.0/../../../logs/migration-2026-02-25_07-57-17.log
+[2026-02-25 07:57:34] [INFO] Report folder: /Users/shreedhardeshwal/Desktop/SA/CouchBase/Datamigration/GuidMigration/GuidMigration/bin/Debug/net8.0/../../../reports/migration-2026-02-25_07-57-34
+[2026-02-25 07:57:34] [====] =========================================

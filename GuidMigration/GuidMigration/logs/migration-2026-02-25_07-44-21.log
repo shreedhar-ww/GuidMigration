@@ -1,0 +1,25 @@
+[2026-02-25 07:44:22] [====] =========================================
+[2026-02-25 07:44:22] [====]  GUID MIGRATION STARTED
+[2026-02-25 07:44:22] [====] =========================================
+[2026-02-25 07:44:22] [INFO] Source: couchbase://162.19.239.150 / PRODDATA
+[2026-02-25 07:44:22] [INFO] Target: couchbase://localhost / Daily-Backup
+[2026-02-25 07:44:22] [INFO] Scope: UCG
+[2026-02-25 07:44:22] [INFO] CompanyId: 1
+[2026-02-25 07:44:22] [INFO] Log file: /Users/shreedhardeshwal/Desktop/SA/CouchBase/Datamigration/GuidMigration/GuidMigration/bin/Debug/net8.0/../../../logs/migration-2026-02-25_07-44-21.log
+[2026-02-25 07:44:22] [====] =========================================
+[2026-02-25 07:44:22] [INFO] Connecting to source cluster...
+[2026-02-25 07:44:23] [OK] Connected to source cluster.
+[2026-02-25 07:44:23] [INFO] Connecting to target cluster...
+[2026-02-25 07:44:23] [OK] Connected to target cluster.
+[2026-02-25 07:44:23] [INFO] Scope 'UCG' already exists.
+[2026-02-25 07:44:23] [INFO] Collection 'Classification' already exists.
+[2026-02-25 07:44:23] [INFO] Collection 'SubClassification' already exists.
+[2026-02-25 07:44:23] [INFO] Collection 'Hierarchy' already exists.
+[2026-02-25 07:44:23] [OK] Primary index ensured for Classification
+[2026-02-25 07:44:23] [OK] Primary index ensured for SubClassification
+[2026-02-25 07:44:23] [OK] Primary index ensured for Hierarchy
+[2026-02-25 07:44:23] [====] --- STEP 3: Fetch Hierarchy ---
+[2026-02-25 07:44:23] [INFO] Fetching Hierarchy where companyId = 1...
+[2026-02-25 07:44:24] [OK] Fetched 54 Hierarchy documents.
+[2026-02-25 07:44:24] [====] --- STEP 4: Separate Hierarchy by level ---
+[2026-02-25 07:44:24] [INFO] DEBUG doc: {"id":[],"name":[],"parentname":[],"parentId":[],"level":[],"imageUrl":[],"companyId":[],"isDeleted":[],"createdBy":[],"createdDate":[],"lastModifiedBy":[],"lastModifiedDate":[]}

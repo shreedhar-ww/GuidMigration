@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  couchbase:
+    image: couchbase:latest
+    container_name: couchbase-local
+    ports:
+      - "8091-8096:8091-8096"
+      - "11210-11211:11210-11211"
+    volumes:
+      - couchbase-data:/opt/couchbase/var
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8091/pools"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  couchbase-setup:
+    image: couchbase:latest
+    container_name: couchbase-setup
+    depends_on:
+      couchbase:
+        condition: service_healthy
+    entrypoint: ["bash", "-c"]
+    command:
+      - |
+        set -e
+        echo 'Initializing Couchbase cluster...'
+        couchbase-cli cluster-init -c couchbase:8091 --cluster-username Administrator --cluster-password Administrator --cluster-ramsize 512 --cluster-index-ramsize 256 --cluster-fts-ramsize 256 --services data,index,query,fts
+
+        echo 'Creating bucket Daily-Backup...'
+        couchbase-cli bucket-create -c couchbase:8091 -u Administrator -p Administrator --bucket Daily-Backup --bucket-type couchbase --bucket-ramsize 256 --bucket-replica 0 --wait
+
+        sleep 5
+
+        echo 'Creating scope UCG...'
+        couchbase-cli collection-manage -c couchbase:8091 -u Administrator -p Administrator --bucket Daily-Backup --create-scope UCG
+
+        echo 'Creating scope Agritec...'
+        couchbase-cli collection-manage -c couchbase:8091 -u Administrator -p Administrator --bucket Daily-Backup --create-scope Agritec
+
+        sleep 2
+
+        for col in Classification Diary FarmerDiary Hierarchy SubClassification Questionnaire QuestionnaireResponse; do
+          echo "Creating collection UCG.$$col..."
+          couchbase-cli collection-manage -c couchbase:8091 -u Administrator -p Administrator --bucket Daily-Backup --create-collection "UCG.$$col"
+        done
+
+        for col in Classification Diary FarmerDiary Hierarchy SubClassification Questionnaire QuestionnaireResponse; do
+          echo "Creating collection Agritec.$$col..."
+          couchbase-cli collection-manage -c couchbase:8091 -u Administrator -p Administrator --bucket Daily-Backup --create-collection "Agritec.$$col"
+        done
+
+        echo 'Couchbase setup complete!'
+
+volumes:
+  couchbase-data:
