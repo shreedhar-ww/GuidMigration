@@ -30,4 +30,5 @@ public class MigrationConfig
     // CSV to SQL generation
     public string CsvFilePath { get; set; } = string.Empty;
     public string SqlTableName { get; set; } = "CropData";
+
 }

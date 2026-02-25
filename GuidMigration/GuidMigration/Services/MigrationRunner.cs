@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text.Json.Nodes;
 using GuidMigration.Models;
+using Microsoft.VisualBasic.FileIO;
 
 namespace GuidMigration.Services;
 
@@ -117,9 +118,12 @@ public class MigrationRunner
                 transformedHierarchies.Add(result.Value);
         }
 
-        // --- Step 11: Upsert to target ---
+        // --- Step 11: Upsert to target + Generate SQL INSERT script ---
         var upserter = new DocumentUpserter(_config.BatchSize);
         var targetScope = connManager.TargetBucket.Scope(_config.TargetScopeName);
+        var reportDir = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "reports",
+            $"migration-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}");
+        var mappings = remapper.GetAllMappings();
 
         Logger.Section("--- STEP 11a: Upsert Classifications ---");
         var classTarget = await targetScope.CollectionAsync(_config.ClassificationCollection);
@@ -133,18 +137,26 @@ public class MigrationRunner
         var hierTarget = await targetScope.CollectionAsync(_config.HierarchyCollection);
         var (hSuccess, hFailed, hFailedIds) = await upserter.UpsertAsync(hierTarget, transformedHierarchies);
 
+        // --- Step 11d: Generate SQL INSERT script from CSV using GUID mappings ---
+        if (!string.IsNullOrWhiteSpace(_config.CsvFilePath))
+        {
+            Logger.Section("--- STEP 11d: Generate SQL INSERT Script ---");
+            var csvPath = Path.IsPathRooted(_config.CsvFilePath)
+                ? _config.CsvFilePath
+                : Path.Combine(AppContext.BaseDirectory, _config.CsvFilePath);
+            var sqlOutputPath = Path.Combine(reportDir, $"{_config.SqlTableName}_insert.sql");
+            GenerateSqlInsertScript(csvPath, sqlOutputPath, _config.SqlTableName, mappings);
+        }
+
         // --- Step 12: Verification ---
         Logger.Section("--- STEP 12: Verification ---");
         await VerifyMigrationAsync(connManager.TargetCluster, _config,
             transformedClassifications.Count, transformedSubClassifications.Count, transformedHierarchies.Count);
 
         // --- Write analysis report files ---
-        var reportDir = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "reports",
-            $"migration-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}");
-
         Logger.WriteAnalysisReport(
             reportDir,
-            remapper.GetAllMappings(),
+            mappings,
             classificationDocs.Count, subClassificationDocs.Count, hierarchyDocs.Count,
             cSuccess, cFailed,
             sSuccess, sFailed,
@@ -152,7 +164,6 @@ public class MigrationRunner
 
         // Log GUID mappings to console/log file
         Logger.Section("--- GUID Mapping Summary ---");
-        var mappings = remapper.GetAllMappings();
         int count = 0;
         foreach (var kvp in mappings)
         {
@@ -163,19 +174,6 @@ public class MigrationRunner
                 Logger.Info($"  ... and {mappings.Count - 30} more.");
                 break;
             }
-        }
-
-        // --- Step 13: Generate SQL INSERT script from CSV ---
-        if (!string.IsNullOrWhiteSpace(_config.CsvFilePath))
-        {
-            Logger.Section("--- STEP 13: Generate SQL INSERT Script ---");
-            var csvPath = Path.IsPathRooted(_config.CsvFilePath)
-                ? _config.CsvFilePath
-                : Path.Combine(AppContext.BaseDirectory, _config.CsvFilePath);
-            var sqlOutputPath = Path.Combine(reportDir, $"{_config.SqlTableName}_insert.sql");
-
-            var sqlGenerator = new CsvSqlGenerator(mappings);
-            sqlGenerator.GenerateSqlFromCsv(csvPath, sqlOutputPath, _config.SqlTableName);
         }
 
         // Final summary
@@ -202,6 +200,143 @@ public class MigrationRunner
             if (hFailedIds.Count > 0)
                 Logger.Warn($"  Hierarchy failed IDs: {string.Join(", ", hFailedIds)}");
         }
+    }
+
+    /// <summary>
+    /// Reads the CSV, replaces CropGUID and ParentCropGUID using the GUID mappings,
+    /// and generates SQL INSERT statements.
+    /// </summary>
+    private static void GenerateSqlInsertScript(
+        string csvPath, string outputPath, string tableName,
+        IReadOnlyDictionary<string, string> guidMappings)
+    {
+        if (!File.Exists(csvPath))
+        {
+            Logger.Warn($"CSV file not found: {csvPath}. Skipping SQL generation.");
+            return;
+        }
+
+        Logger.Info($"Reading CSV: {csvPath}");
+
+        var guidMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var kvp in guidMappings)
+            guidMap[kvp.Key.ToUpperInvariant()] = kvp.Value.ToUpperInvariant();
+
+        // Parse CSV
+        var rows = new List<string[]>();
+        string[] headers;
+        using (var parser = new TextFieldParser(csvPath))
+        {
+            parser.TextFieldType = FieldType.Delimited;
+            parser.SetDelimiters(",");
+            parser.HasFieldsEnclosedInQuotes = true;
+
+            headers = parser.EndOfData ? Array.Empty<string>() : parser.ReadFields()!;
+            while (!parser.EndOfData)
+            {
+                var fields = parser.ReadFields();
+                if (fields != null) rows.Add(fields);
+            }
+        }
+
+        // Column classification
+        var numericColumns = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "CropId", "IsActive", "Yield", "Ratio", "CreatedBy", "UpdatedBy",
+            "Level", "IsDiarySubmited", "IsAnimalCategory", "IsLiveStock", "CompanyId"
+        };
+        var guidColumns = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "CropGUID", "ParentCropGUID"
+        };
+        var excludedColumns = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "CropId"
+        };
+
+        // Build included column indices (skip CropId)
+        var includedIndices = new List<int>();
+        var includedHeaders = new List<string>();
+        for (int i = 0; i < headers.Length; i++)
+        {
+            if (!excludedColumns.Contains(headers[i]))
+            {
+                includedIndices.Add(i);
+                includedHeaders.Add(headers[i]);
+            }
+        }
+
+        var columnList = string.Join(", ", includedHeaders);
+        var inserts = new List<string>();
+        int mappedCount = 0;
+
+        foreach (var row in rows)
+        {
+            var values = new List<string>();
+            foreach (var i in includedIndices)
+            {
+                var col = headers[i];
+                var raw = i < row.Length ? row[i] : "";
+
+                if (guidColumns.Contains(col))
+                {
+                    values.Add(RemapGuid(raw, guidMap, ref mappedCount));
+                }
+                else if (numericColumns.Contains(col))
+                {
+                    values.Add(SqlVal(raw, isString: false));
+                }
+                else
+                {
+                    values.Add(SqlVal(raw, isString: true));
+                }
+            }
+
+            inserts.Add($"INSERT INTO {tableName} ({columnList}) VALUES ({string.Join(", ", values)});");
+        }
+
+        // Write SQL file
+        Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
+        using var writer = new StreamWriter(outputPath);
+        writer.WriteLine($"-- SQL Insert Script with remapped CropGUID and ParentCropGUID");
+        writer.WriteLine($"-- Source CSV: {Path.GetFileName(csvPath)}");
+        writer.WriteLine($"-- Total rows: {inserts.Count}");
+        writer.WriteLine($"-- GUIDs remapped: {mappedCount}");
+        writer.WriteLine();
+        foreach (var stmt in inserts)
+            writer.WriteLine(stmt);
+
+        Logger.Success($"SQL script generated: {outputPath} ({inserts.Count} rows, {mappedCount} GUIDs remapped)");
+    }
+
+    private static string RemapGuid(string raw, Dictionary<string, string> guidMap, ref int mappedCount)
+    {
+        if (string.IsNullOrWhiteSpace(raw) || raw.Trim().Equals("NULL", StringComparison.OrdinalIgnoreCase))
+            return "NULL";
+
+        var guid = raw.Trim().ToUpperInvariant();
+
+        if (guid == "00000000-0000-0000-0000-000000000000")
+            return $"'{guid}'";
+
+        if (guidMap.TryGetValue(guid, out var newGuid))
+        {
+            mappedCount++;
+            return $"'{newGuid}'";
+        }
+
+        return $"'{guid}'";
+    }
+
+    private static string SqlVal(string raw, bool isString)
+    {
+        if (string.IsNullOrWhiteSpace(raw) || raw.Trim().Equals("NULL", StringComparison.OrdinalIgnoreCase))
+            return "NULL";
+
+        var val = raw.Trim();
+        if (isString)
+            return "'" + val.Replace("'", "''") + "'";
+        return val;
     }
 
     private async Task VerifyMigrationAsync(
